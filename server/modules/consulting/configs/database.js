@@ -1,13 +1,16 @@
 const mysql      = require('mysql');
-const connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
+// const connection = mysql.createConnection('mysql://b07adeaefe7531:b7d05715@us-cdbr-east-02.cleardb.com/heroku_d6bdf658ab39625?reconnect=true');
 
 module.exports = {
 
-    getConnection: () => connection.connect(),
+    database: null,
+    getConnection: () => {
+        this.database = mysql.createConnection('mysql://b07adeaefe7531:b7d05715@us-cdbr-east-02.cleardb.com/heroku_d6bdf658ab39625?reconnect=true');       
+    },
     query: query => {
 
         return new Promise((resolve, reject) => {
-            connection.query(query, function (error, results, fields) {
+            this.database.query(query, function (error, results, fields) {
             
             if (error) {
                 reject(error);
@@ -17,5 +20,5 @@ module.exports = {
         })        
       })
     },
-    endConnection: () => connection.end()
+    endConnection: () => this.database.end()
 };

@@ -2,6 +2,9 @@ const connection = require('../configs/database');
 
 module.exports = {
     async getConsultants(filter = {}) {
+
+        connection.getConnection();
+
         let query = 'select * from consultores';
 
         if (filter.email) {
@@ -18,15 +21,22 @@ module.exports = {
 
         const consultants = await connection.query(query);
 
+        connection.endConnection();
+
         return consultants.results;
     },
     async insertConsultant(consultant) {
+
+        connection.getConnection();
+
         const query = `insert into consultores
             values (null, "${consultant.email}", "${consultant.nome}", ${consultant.cpf}, ${consultant.empresaId})`;
 
         const { results } = await connection.query(query);
 
-        const consultantCreated = await connection.query(`select * from consultores where id=${results.insertId}`)
+        const consultantCreated = await connection.query(`select * from consultores where id=${results.insertId}`);
+
+        connection.endConnection();
 
         return consultantCreated.results[0];
     }

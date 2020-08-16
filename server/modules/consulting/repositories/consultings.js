@@ -4,6 +4,9 @@ const moment = require('moment');
 
 module.exports = {
     async getConsultings(filter = {}) {
+
+        connection.getConnection();
+
         let query = 'select * from consultorias order by id desc';
 
         let { results } = await connection.query(query);
@@ -12,18 +15,27 @@ module.exports = {
             results = getAllInfoConsulting(results);
         }
 
+        connection.endConnection();
+
         return results;
     },
     async getConsultingById(id) {
+
+        connection.getConnection();
+
         let query = `select * from consultorias where id = ${id}`;
 
         let { results } = await connection.query(query);
 
         results = await getAllInfoConsulting(results);
 
+        connection.endConnection();
+
         return results[0];
     },
     async insertConsulting(consulting) {
+
+        connection.getConnection();
 
         const query = `insert into consultorias
             values (
@@ -56,6 +68,8 @@ module.exports = {
             const consultantsQuery = getConsultantsInsertQuery(consultingCreated, consulting)            
             await connection.query(consultantsQuery);
         }   
+
+        connection.endConnection();
 
         return consultingCreated;
     }

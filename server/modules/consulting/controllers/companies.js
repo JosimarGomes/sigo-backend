@@ -3,8 +3,6 @@ const companyService = require('../services/companies');
 async function index(req, res) {
     try {
 
-        console.log("req", req)
-
         const filter = req.query;
 
         const companies = await companyService.getCompanies(filter);

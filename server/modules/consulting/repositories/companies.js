@@ -3,6 +3,9 @@ const moment = require('moment');
 
 module.exports = {
     async getCompanies(filter = {}) {
+        
+        connection.getConnection();
+
         let query = 'select * from empresas';
 
         if (filter.cnpj) {
@@ -15,9 +18,14 @@ module.exports = {
 
         const companies = await connection.query(query);
 
+        connection.endConnection();
+
         return companies.results;
     },
     async insertCompany(company) {
+        
+        connection.getConnection();
+
         const query = `insert into empresas
             values (
                 null,
@@ -37,7 +45,9 @@ module.exports = {
 
         const { results } = await connection.query(query);
 
-        const companyCreated = await connection.query(`select * from empresas where id=${results.insertId}`)
+        const companyCreated = await connection.query(`select * from empresas where id=${results.insertId}`);
+
+        connection.endConnection();
 
         return companyCreated.results[0];
     }
