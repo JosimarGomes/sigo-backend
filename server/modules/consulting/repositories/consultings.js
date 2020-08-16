@@ -8,7 +8,9 @@ module.exports = {
 
         let { results } = await connection.query(query);
 
-        results = getAllInfoConsulting(results);
+        if (results.length > 0) {
+            results = getAllInfoConsulting(results);
+        }
 
         return results;
     },
