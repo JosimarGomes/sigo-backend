@@ -1,5 +1,7 @@
-const connection = require('../configs/database');
+const DatabaseConnection = require('../configs/database');
 const moment = require('moment');
+
+const connection = new DatabaseConnection();
 
 module.exports = {
     async getCompanies(filter = {}) {

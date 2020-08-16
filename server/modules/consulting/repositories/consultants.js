@@ -1,4 +1,6 @@
-const connection = require('../configs/database');
+const DatabaseConnection = require('../configs/database');
+
+const connection = new DatabaseConnection();
 
 module.exports = {
     async getConsultants(filter = {}) {

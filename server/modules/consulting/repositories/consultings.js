@@ -1,6 +1,7 @@
-const connection = require('../configs/database');
+const DatabaseConnection = require('../configs/database');
 const moment = require('moment');
 
+const connection = new DatabaseConnection();
 
 module.exports = {
     async getConsultings(filter = {}) {
@@ -26,8 +27,10 @@ module.exports = {
         let query = `select * from consultorias where id = ${id}`;
 
         let { results } = await connection.query(query);
-
-        results = await getAllInfoConsulting(results);
+        
+        if (results.length > 0) {
+            results = await getAllInfoConsulting(results);
+        }
 
         connection.endConnection();
 
