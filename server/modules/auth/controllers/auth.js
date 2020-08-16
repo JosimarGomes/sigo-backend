@@ -10,6 +10,11 @@ async function auth(req, res) {
         
         // mock user 
         if (email === "gestorteste@gmail.com") {
+
+            if (senha !== '12345') {
+                return res.status(403).json({ message: 'Senha inválida' });
+            }
+            
             const userData = JSON.stringify({
                 email,
                 perfil: 'gestor',
