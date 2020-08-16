@@ -12,7 +12,7 @@ module.exports = {
         let { results } = await connection.query(query);
 
         if (results.length > 0) {
-            results = getAllInfoConsulting(results);
+            results = await getAllInfoConsulting(results);
         }
 
         connection.endConnection();
